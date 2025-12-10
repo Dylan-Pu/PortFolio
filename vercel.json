@@ -1,14 +1,25 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel/json",
   "version": 2,
   "functions": {
     "public/index.php": {
-      "runtime": "vercel-php@0.7.1"
+      "runtime": "vercel-php@0.8.0"
     }
   },
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/public/index.php"
+    },
+    {
+      "src": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=86400"
+        }
+      ],
+      "continue": true
     }
   ],
   "buildCommand": "npm run build && composer install --no-dev --optimize-autoloader",
@@ -16,13 +27,5 @@
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false"
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=86400" }
-      ]
-    }
-  ]
+  }
 }
