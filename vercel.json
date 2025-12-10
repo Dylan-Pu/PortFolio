@@ -12,10 +12,17 @@
       "destination": "/api/index.php"
     }
   ],
-  "buildCommand": "composer install --optimize-autoloader --no-dev && npm ci && npm run build",
+  "builds": [
+    {
+      "src": "api/index.php",
+      "use": "@vercel/php"
+    }
+  ],
+  "buildCommand": "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer install --optimize-autoloader --no-dev --no-interaction && npm ci && npm run build",
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false",
-    "APP_URL": "https://portfoliodylanp.vercel.app"
+    "APP_URL": "https://portfoliodylanp.vercel.app",
+    "COMPOSER_ALLOW_SUPERUSER": "1"
   }
 }
